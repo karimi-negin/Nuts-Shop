@@ -1,0 +1,131 @@
+{% extends 'navs.html' %}
+{% block content %}
+{% if user.is_superuser %}
+    <h1 class="font-extrabold text-primary text-3xl m-10 text-center">پنل ادمین</h1>
+    <div class="grid grid-rows-3 grid-flow-col gap-4 mb-10">
+        <div class="card w-full bg-base-100 shadow-xl">
+            <div class="card-body">
+              <h2 class="card-title font-black">دسته بندی</h2>
+              <p>مشاهده و ویرایش دسته بندی محصولات</p>
+              <div class="card-actions justify-end">
+                <a href="{% url 'category' %}" class="btn btn-primary">مشاهده</a>
+              </div>
+            </div>
+          </div>
+          <div class="card w-full bg-base-100 shadow-xl">
+            <div class="card-body">
+              <h2 class="card-title font-black">محصولات</h2>
+              <p>مشاهده و ویرایش انواع محصولات</p>
+              <div class="card-actions justify-end">
+                <a href="{% url 'product' %}" class="btn btn-primary">مشاهده</a>
+              </div>
+            </div>
+          </div>
+          <div class="card w-full bg-base-100 shadow-xl">
+            <div class="card-body">
+              <h2 class="card-title font-black">شهر ها</h2>
+              <p>مشاهده و ویرایش شهر ها</p>
+              <div class="card-actions justify-end">
+                <a href="{% url 'city' %}" class="btn btn-primary">مشاهده</a>
+              </div>
+            </div>
+          </div>
+          <div class="card w-full bg-base-100 shadow-xl">
+            <div class="card-body">
+              <h2 class="card-title font-black">انبار ها</h2>
+              <p>مشاهده و ویرایش انبار ها</p>
+              <div class="card-actions justify-end">
+                <a href="{% url 'inventory' %}" class="btn btn-primary">مشاهده</a>
+              </div>
+            </div>
+          </div>
+          <div class="card w-full bg-base-100 shadow-xl">
+            <div class="card-body">
+              <h2 class="card-title font-black">موجودی انبار ها</h2>
+              <p>مشاهده و ویرایش موجودی انبار ها</p>
+              <div class="card-actions justify-end">
+                <a href="{% url 'inventoryProduct' %}" class="btn btn-primary">مشاهده</a>
+              </div>
+            </div>
+          </div>
+          <div class="card w-full bg-base-100 shadow-xl">
+            <div class="card-body">
+              <h2 class="card-title font-black">سفارش ها</h2>
+              <p>مشاهده و ویرایش سفارش کاربران</p>
+              <div class="card-actions justify-end">
+                <a href="{% url 'order' %}" class="btn btn-primary">مشاهده</a>
+              </div>
+            </div>
+          </div>
+      </div>
+{% else %}<br>
+
+<div style="display: flex;margin-right: 0%;width: 80px;">
+  <img src="/static/images/almond_10727556.png"  style="flex: 33.33%;padding: 15px;"><p>تخمه</p> 
+  <img src="/static/images/almond_5263359.png"  style="flex: 33.33%;padding: 15px;"><p>بادام</p>
+  <img src="/static/images/hazelnut_8556917.png"  style="flex: 33.33%;padding: 15px;"><p>فندوق</p>
+  <img src="/static/images/pistachio_3322191.png"  style="flex: 33.33%;padding: 15px;"><p>پسته</p>
+  <img src="/static/images/walnut_9708462.png"  style="flex: 33.33%;padding: 15px;"><p>گردو</p>
+  <img src="/static/images/nuts_7451147.png"  style="flex: 33.33%;padding: 15px;"><p>آجیل</p>
+  <img src="/static/images/fruits_6986388.png"  style="flex: 33.33%;padding: 15px;"><p>میوه خشک</p>
+  <img src="/static/images/dates_3224358.png"  style="flex: 33.33%;padding: 15px;"><p>خشکبار</p>
+</div>
+<div style="display: flex;">
+ <img src="/static/images/main-header.jpg"  style="width: 570px; border-radius: 20%;flex: 33.33%;padding: 15px;">
+ <img src="/static/images/nuts.jpg"  style="width: 500px;border-radius: 20%;flex: 33.33%;padding: 15px;margin-right: 0px;">
+</div>
+
+  
+<div class="flex flex-wrap"style="margin: 0%;">
+  {% for p in object_list %}  
+  <div class="card bg-base-40 shadow-xl m-3" >
+      <div class="card-body items-center content-center">      
+        <h2 class="card-title font-black text-1xl" style="font-size: medium;">{{ p.name }}</h2>
+        <img src="{{ p.name.image.url }}"  alt="{{ p.name }}" style="width: 150px; max-height: auto;">
+        <div class="persian-digit text-sm opacity-50 font-black">هر {{p.name.quantity}} گرم</div>
+        {% if p.quantity > 0 %}
+        <div class="persian-digit font-bold text-success text-1xl">{{ p.name.price }} تومان</div>
+        {% else %}
+        <div class="persian-digit font-bold text-error text-1xl">ناموجود</div>
+        {% endif %}
+         <div class="card-actions justify-end">    
+          <a {% if p.quantity == 0 %} disabled {% endif %} href="{% url 'userOrder' p.pk %}" class="btn btn-primary w-full" ><img src="/static/images/shopping-cart_833314.png" width="25px"></a>
+         </div>
+      </div>
+    </div>
+  {% endfor %}
+  </div>
+</div> 
+<div>
+  <button onclick="topFunction()" id="myBtn" title="بازگشت به بالا"><img src="/static/images/top_753359.png" width="50px" style="margin-right: 94%;position: fixed;top: 87%;"></button>
+<script>
+  function topFunction() {
+    document.body.scrollTop = 0; 
+    document.documentElement.scrollTop = 0; 
+  }
+</script>
+<p  style="display: flex;width: 600px;">
+   <img src="/static/images/fast-delivery.webp" style="flex: 33.33%;padding: 15px;margin-right: 4%;border-radius: 15%;"><br>
+   <img src="/static/images/free-delivery.webp" style="flex: 33.33%;padding: 15px;margin-left:50% ; border-radius: 15%;">
+</p><br>
+<footer style="width: 100%; color: aliceblue; background-color: rgb(132, 169, 175);padding: 3px; height: auto;">
+    <div><br>
+     <h3 style="text-align: center;">ارتباط با ما</h3>
+     <p style="margin-right: 2%;">اطلاعات تماس
+      :پشتیبانی و پردازش سفارش‌ها
+      شنبه تا پنجشنبه، ساعت 9:30 تا 22:30
+      جمعه و روزهای تعطیل، ساعت 10:30 تا 17:30</p>
+     <div style="display: flex;margin-right: 2%;">ما را در شبکه های اجتماعی دنبال کنید
+      <br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;
+      <a href="mailto:neginkarimirahjerdi@gmail.com" ><img src="/static/images/gmail_732200.png" width="70px" style="flex: 33.33%;padding: 15px;"></a>
+      <a href="#"><img src="/static/images/instagram_2111463.png" width="70px" style="flex: 33.33%;padding: 15px;"></a>
+      <a href="#"><img src="/static/images/telegram_2111646 (1).png" width="70px" style="flex: 33.33%;padding: 15px;"></a>
+     </div>
+     <h3 style="text-align: center;" >درباره ما </h3>     
+      <img src="/static/images/namad.png" style="margin-right: 90%;top: 0%;">
+     <p style="margin-right: 2%;top: 10%;">آدرس:<br>شعبه تهران :مرزداران خیابان احدی کوچه اسدی پلاک 10<br>شعبه کرج:فردیس خیابان طالقانی کوچه طالقانی پلاک 50<br>شعبه رشت:خیابان قاسمی پلاک 80</p>
+    </div> 
+  </footer>
+{% endif %}
+{% endblock content %}
+
